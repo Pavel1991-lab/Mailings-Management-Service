@@ -1,18 +1,13 @@
 import secrets
 from random import random
-
-from django.shortcuts import render, redirect
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.shortcuts import redirect
-from django.template.context_processors import request
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views import View
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView
 from django.core.mail import send_mail
 from users.models import User
 from django.contrib import messages
@@ -38,14 +33,7 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('catalog:product_list')
     template_name = "users/register.html"
 
-    # def form_valid(self, form):
-    #     new_user = form.save()
-    #     send_mail(
-    #         subject= 'Поздравляем с регистарцией',
-    #         message= f'Вы зарегистрировались {User.objects.uuid}',
-    #         from_email = settings.EMAIL_HOST_USER,
-    #         recipient_list = [new_user.email]
-    #     )
+
 
     def form_valid(self, form):
         new_user = form.save()
