@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'north',
-        'USER': 'pavel',
-        'PASSWORD': 'password',
+        'NAME': 'postgres',
+        'USER': 'paha',
+        'PASSWORD': 'Ovcebuk17!',
         'HOST': 'localhost'
     }
 }
@@ -164,8 +164,8 @@ LOGIN_REDIRECT_URL = '/'
 
 
 EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_HOST_USER = 'kaban17091991@yandex.ru'
-EMAIL_HOST_PASSWORD = 'inhiakuismxemngl'
+EMAIL_HOST_USER = 'alexpervosotnikov@yandex.ru'
+EMAIL_HOST_PASSWORD = 'hcawnhfmwbvudfgu'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
