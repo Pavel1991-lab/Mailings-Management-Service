@@ -3,6 +3,7 @@ from random import random
 from django.conf import settings
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
@@ -58,16 +59,17 @@ def verify_email(request, token):
     try:
         user_verification_key = urlsafe_base64_decode(token).decode()
         user = User.objects.get(verification_key=user_verification_key)
-        if int(user_verification_key) == user.verification_key:
+        if int(user_verification_key) == int(user.verification_key):
             user.is_active = True
             user.save()
             messages.success(request, 'Ваш аккаунт был успешно подтвержден. Теперь вы можете войти.')
-            return redirect('catalog:category')
+            return redirect('catalog:product_list')
         else:
             messages.error(request, 'Ошибка верификации аккаунта.')
+            return HttpResponse("Ошибка верификации аккаунта.")
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         messages.error(request, 'Ошибка верификации аккаунта.')
-
+        return HttpResponse("Ошибка верификации аккаунта.")
 
 def generate_password(request):
     new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
