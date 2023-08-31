@@ -1,6 +1,7 @@
 import secrets
 from random import random
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.http import HttpResponse
@@ -22,6 +23,7 @@ from users.forms import UserForm
 
 class LoginView(BaseLoginView):
     template_name = 'users/login.html'
+
 
 
 class LogoutView(BaseLogoutView):

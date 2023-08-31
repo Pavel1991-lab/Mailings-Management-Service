@@ -10,9 +10,14 @@ from pytils.translit import slugify
 from catalog.forms import ProductForm, VersionForm
 
 
-class Productlistview(ListView):
+class Productlistview(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/home.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+
 
 
 class Contactlistview(ListView):
@@ -20,11 +25,12 @@ class Contactlistview(ListView):
     template_name = 'catalog/contacts.html'
 
 
+
 class ProductByCategoryListView(DetailView):
     model = Product
     template_name = 'catalog/good_detail.html'
 
-# @login_required
+
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -42,8 +48,10 @@ class ProductCreate(LoginRequiredMixin, CreateView):
                 form.add_error(None, f"Запрещенное слово '{word}' найдено в названии или описании продукта.")
                 return self.form_invalid(form)
 
+        form.instance.user = self.request.user
+
         return super().form_valid(form)
-# @login_required
+
 class ProductUpdateview(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm

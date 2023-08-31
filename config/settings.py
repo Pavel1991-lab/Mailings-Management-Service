@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'north',
-        'USER': 'pavel',
-        'PASSWORD': 'password',
+        'NAME': 'male',
+        'USER': 'paha',
+        'PASSWORD': 'Ovcebuk17!',
         'HOST': 'localhost'
     }
 }
@@ -160,6 +160,7 @@ CRISPY_TEMPLATE_PACK = 'uni_form'
 AUTH_USER_MODEL = 'users.User'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
 
 
 

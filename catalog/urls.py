@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from catalog.views import Contactlistview, ProductByCategoryListView, Productlistview, ProductCreate, ProductUpdateview
-
+from django.contrib.auth.views import LoginView
 from catalog.apps import CatalogConfig
 
 app_name = CatalogConfig.name

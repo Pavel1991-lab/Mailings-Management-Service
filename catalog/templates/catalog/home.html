@@ -3,14 +3,14 @@
 
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Садовод</h1>
-    <p class="lead">Садовод - это отличный магазин для покупки овощей, фруктов, ягод</p>
+    <h1 class="display-4">Ваша рассылка</h1>
+    <p class="lead">Здесь можете зделать рассылку на нужную почту</p>
 </div>
 
 <div class="container">
     <div class="row text-center">
         <div class="col-12 mb-5">
-            <a class="btn btn-primary" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
+            <a class="btn btn-primary" href="{% url 'catalog:create_product' %}">Добавить рассылку</a>
         </div>
         {%for object in object_list%}
         <div class="col-3">
@@ -19,15 +19,12 @@
                     <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <img src='{{ object.image|mymedia }}' alt="продукты" class="img-fluid" style="width: 150px; height: 100px;">
-                    <h1 class="card-title pricing-card-title">{{ object.purchase_price }}</h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                  <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- {{ object.description|slice:":30" }}</li>
-                        <span class="text-muted">Зарегистрировал: {{ object.user|default:'-' }}</span>
+                         {% if request.user.is_authenticated %}
+                         <span class="text-muted">Зарегистрировал: {{ object.user.email }}</span>
+                         {% endif %}
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='/good/{{ object.id }}'">Подробнее</button>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href=&quot;{% url 'fidbeck:create' %}&quot;">Оставить отзыв</button>
                      <a href="{% url 'catalog:update_product' object.pk %}" type="button" class="btn btn-primary">Обновить</a>
                 </div>
             </div>
