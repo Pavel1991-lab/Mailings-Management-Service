@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Version
+from catalog.models import Product
 
 
 class ProductForm(forms.ModelForm):
@@ -13,11 +13,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ["name", "description"]
+        fields = ["name", "topic", "description"]
 
 
 
-class VersionForm(forms.ModelForm):
-    class Meta:
-        model = Version
-        fields = ['product', 'version_number', 'version_name', 'is_active']

@@ -4,10 +4,10 @@ from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.models import Product, Version
+from catalog.models import Product
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm
 
 
 class Productlistview(LoginRequiredMixin, ListView):
@@ -58,27 +58,12 @@ class ProductUpdateview(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('catalog:product_list')
 
     def form_valid(self, form):
-
-        formset = self.get_context_data()['formset']
         self.object = form.save()
-        if formset.is_valid():
-            formset.instance = self.object
-            self.object.owner = self.request.user
-            formset.save()
+
 
 
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        VersionFormSet = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        context_data['formset'] = VersionFormSet
-        if self.request.method == 'POST':
-            context_data['formset'] = VersionFormSet(self.request.POST, instance=self.object)
-        else:
-            context_data['formset'] = VersionFormSet(instance=self.object)
-
-        return context_data
 
 
 class ProductdeleteView(DeleteView):
