@@ -44,8 +44,8 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         new_user.save()
 
         send_mail(
-            subject='Регистрация на Портале.',
-            message=f'Для подтвердения регистрации, пройдите по ссылке ниже в письме.',
+            subject=new_user.topic,
+            message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.name]
         )
