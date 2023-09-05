@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from catalog.views import (Contactlistview, ProductByCategoryListView,
-                           Productlistview, ProductCreate, ProductUpdateview, ProductdeleteView)
+                           Productlistview, ProductCreate, ProductUpdateview, ProductdeleteView, Clientlistview, ClientCreate, ClientUpdateview)
 from django.contrib.auth.views import LoginView
 from catalog.apps import CatalogConfig
 
@@ -16,6 +16,9 @@ urlpatterns = [
     path('create/', ProductCreate.as_view(), name = 'create_product'),
     path('update/<int:pk>/', ProductUpdateview.as_view(), name='update_product'),
     path('delete/<int:pk>/', ProductdeleteView.as_view(), name='delete'),
+    path('client/', Clientlistview.as_view(), name='client_list'),
+    path('update/<int:pk>/', ClientUpdateview.as_view(), name='update_client'),
+    path('add_client/', ClientCreate.as_view(), name='add_client')
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

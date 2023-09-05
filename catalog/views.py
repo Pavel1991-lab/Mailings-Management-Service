@@ -5,10 +5,10 @@ from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.models import Product
+from catalog.models import Product, Client
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm
+from catalog.forms import ProductForm, ClientForm
 
 from config import settings
 
@@ -73,3 +73,33 @@ class ProductdeleteView(DeleteView):
     success_url = reverse_lazy('catalog:product_list')
 
 
+
+class Clientlistview(LoginRequiredMixin, ListView):
+    model = Client
+    template_name = 'catalog/client_form.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+class ClientCreate(LoginRequiredMixin, CreateView):
+    model = Client
+    form_class = ClientForm
+    success_url = reverse_lazy('catalog:client_list')
+
+    def form_valid(self, form):
+        new_user = form.save()
+        new_user.save()
+
+        return super().form_valid(form)
+
+
+class ClientUpdateview(LoginRequiredMixin, UpdateView):
+    model = Client
+    form_class = ClientForm
+    success_url = reverse_lazy('catalog:client_list')
+
+    def form_valid(self, form):
+        self.object = form.save()
+
+
+        return super().form_valid(form)

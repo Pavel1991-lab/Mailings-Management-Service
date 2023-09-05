@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список клиентов</title>
+</head>
+<body>
+    <h1>Список клиентов</h1>
+    <ul>
+        {% for client in client_list %}
+        <li>{{ client.email }}
+            <form method="post" action="{% url 'catalog:update_client' client.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Обновить">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'catalog:add_client' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Добавить клиента">
+    </form>
+</body>
+</html>
