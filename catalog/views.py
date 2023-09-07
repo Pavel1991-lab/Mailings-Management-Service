@@ -45,11 +45,17 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         new_user = form.save()
         new_user.save()
+        user_profile = Client.objects.filter(user=self.request.user)
+        recipient_list = []
+        for user in user_profile:
+            recipient_email = user.email
+            recipient_list.append(recipient_email)
+
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[new_user.name]
+            recipient_list=[recipient_email]
         )
 
         form.instance.user = self.request.user
