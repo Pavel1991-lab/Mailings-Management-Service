@@ -39,10 +39,12 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+
+
+
     def form_valid(self, form):
         new_user = form.save()
         new_user.save()
-
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
@@ -51,8 +53,8 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         )
 
         form.instance.user = self.request.user
-
         return super().form_valid(form)
+
 
 class ProductUpdateview(LoginRequiredMixin, UpdateView):
     model = Product
@@ -81,6 +83,8 @@ class Clientlistview(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
+
+
 class ClientCreate(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
@@ -103,3 +107,8 @@ class ClientUpdateview(LoginRequiredMixin, UpdateView):
 
 
         return super().form_valid(form)
+
+
+class ClientdeleteView(DeleteView):
+    model = Client
+    success_url = reverse_lazy('catalog:client_list')

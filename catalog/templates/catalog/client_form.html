@@ -6,12 +6,16 @@
 </head>
 <body>
     <h1>Список клиентов</h1>
-    <ul>
+    <a class="p-2 btn btn-warning btn-lg" href="{% url 'catalog:product_list' %}">На главную</a>    <ul>
         {% for client in client_list %}
         <li>{{ client.email }}
             <form method="post" action="{% url 'catalog:update_client' client.id %}">
                 {% csrf_token %}
                 <input type="submit" value="Обновить">
+            </form>
+            <form method="post" action="{% url 'catalog:cl_delete' client.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Удалить">
             </form>
         </li>
         {% endfor %}
