@@ -57,15 +57,17 @@ class ProductCreate(LoginRequiredMixin, CreateView):
             formset.save()
         new_user = form.save()
         new_user.save()
-        client_email = formset.cleaned_data[0]['email']
-        email_send = ''
-        for i in client_email:
-            email_send += i
+        email_list = []
+        for form in formset:
+            if 'email' in form.cleaned_data:
+                email_list.append(form.cleaned_data['email'])
+        email_send = ([f'"{i}"' for i in email_list])
+
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[email_send]
+            recipient_list=email_send
         )
 
         form.instance.user = self.request.user
