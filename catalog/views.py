@@ -57,11 +57,15 @@ class ProductCreate(LoginRequiredMixin, CreateView):
             formset.save()
         new_user = form.save()
         new_user.save()
+        client_email = formset.cleaned_data[0]['email']
+        email_send = ''
+        for i in client_email:
+            email_send += i
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[new_user.email_adress]
+            recipient_list=[email_send]
         )
 
         form.instance.user = self.request.user
@@ -95,11 +99,12 @@ class ProductUpdateview(LoginRequiredMixin, UpdateView):
             formset.save()
         new_user = form.save()
         new_user.save()
+        client_email = formset.cleaned_data[0]['email']
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[new_user.email_adress]
+            recipient_list=[client_email]
         )
 
         form.instance.user = self.request.user
