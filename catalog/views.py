@@ -41,7 +41,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=1)
+        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=100)
         if self.request.method == 'POST':
             context_data['formset'] = ClientFormset(self.request.POST, instance=self.object)
         else:
@@ -50,6 +50,11 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         return context_data
 
     def form_valid(self, form):
+        formset = self.get_context_data()['formset']
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
         new_user = form.save()
         new_user.save()
         send_mail(
@@ -74,7 +79,7 @@ class ProductUpdateview(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=1)
+        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=100)
         if self.request.method == 'POST':
             context_data['formset'] = ClientFormset(self.request.POST, instance = self.object)
         else:
