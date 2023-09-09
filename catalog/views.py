@@ -39,27 +39,30 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = ClientFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = ClientFormset(instance=self.object)
 
-
+        return context_data
 
     def form_valid(self, form):
         new_user = form.save()
         new_user.save()
-        user_profile = Client.objects.filter(user=self.request.user)
-        recipient_list = []
-        for user in user_profile:
-            recipient_email = user.email
-            recipient_list.append(recipient_email)
-
         send_mail(
             subject=new_user.topic,
             message=new_user.description,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[recipient_email]
+            recipient_list=[new_user.email_adress]
         )
 
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
 
 
 class ProductUpdateview(LoginRequiredMixin, UpdateView):
@@ -67,10 +70,34 @@ class ProductUpdateview(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = ClientFormset(self.request.POST, instance = self.object)
+        else:
+            context_data['formset'] = ClientFormset(instance = self.object)
+
+        return context_data
+
     def form_valid(self, form):
+        formset = self.get_context_data()['formset']
         self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        new_user = form.save()
+        new_user.save()
+        send_mail(
+            subject=new_user.topic,
+            message=new_user.description,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[new_user.email_adress]
+        )
 
-
+        form.instance.user = self.request.user
 
         return super().form_valid(form)
 
@@ -100,6 +127,7 @@ class ClientCreate(LoginRequiredMixin, CreateView):
         new_user = form.save()
         new_user.save()
 
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 

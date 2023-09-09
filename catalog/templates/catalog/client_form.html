@@ -23,7 +23,7 @@
     <form method="post" action="{% url 'catalog:add_client' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Добавить клиента">
+
     </form>
 </body>
 </html>
