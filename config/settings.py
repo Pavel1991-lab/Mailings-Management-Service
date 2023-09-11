@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'fidbeck',
     'users',
     'crispy_forms',
+    'django_crontab',
     # 'django.contrib.sites',
     # 'account'
 ]
@@ -97,8 +98,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'male',
-        'USER': 'pavel',
-        'PASSWORD': 'password',
+        'USER': 'paha',
+        'PASSWORD': 'Ovcebuk17!',
         'HOST': 'localhost'
     }
 }
