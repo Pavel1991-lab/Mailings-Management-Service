@@ -46,7 +46,7 @@ class RegisterView(CreateView):
         token = urlsafe_base64_encode(force_bytes(new_user.verification_key))
         verification_url = reverse('users:verify', kwargs={'token': token})
         send_mail(
-            subject='Регистрация на Портале.',
+            subject='Перейдите по ссылки которая придет к вам на почту.',
             message=f'Для подтвердения регистрации, пройдите по ссылке ниже в письме. \n {self.request.build_absolute_uri(verification_url)}',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.email]
