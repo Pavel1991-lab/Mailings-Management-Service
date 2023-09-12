@@ -1,3 +1,5 @@
+from datetime import datetime, date, time
+from celery import shared_task
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -7,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
 from pytils.translit import slugify
-
+from catalog.tasks import send_email_at_specific_time
 from catalog.forms import ProductForm, ClientForm
 
 from config import settings
@@ -61,14 +63,8 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         for form in formset:
             if 'email' in form.cleaned_data:
                 email_list.append(form.cleaned_data['email'])
-        email_send = ([f'"{i}"' for i in email_list])
-
-        send_mail(
-            subject=new_user.topic,
-            message=new_user.description,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=email_send
-        )
+        send_email_at_specific_time.apply_async(eta=datetime.combine(date.today(), time(19, 43)))
+        return super().form_valid(form)
 
         form.instance.user = self.request.user
         return super().form_valid(form)
