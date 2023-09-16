@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
 from pytils.translit import slugify
-from catalog.tasks import send_email_at_specific_time
+# from catalog.tasks import send_email_at_specific_time
 from catalog.forms import ProductForm, ClientForm
 
 from config import settings
@@ -63,11 +63,13 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         for form in formset:
             if 'email' in form.cleaned_data:
                 email_list.append(form.cleaned_data['email'])
-        send_email_at_specific_time.apply_async(eta=datetime.combine(date.today(), time(19, 43)))
         return super().form_valid(form)
-
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+
+
 
 
 
