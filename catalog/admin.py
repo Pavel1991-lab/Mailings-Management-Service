@@ -1,7 +1,7 @@
-from django.contrib import admin
-
-from catalog.models import Client
-
+# from django.contrib import admin
+#
+# from catalog.models import Client
+#
 
 # Register your models here.
 

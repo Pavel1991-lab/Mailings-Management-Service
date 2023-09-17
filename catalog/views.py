@@ -1,8 +1,11 @@
 from datetime import datetime, date, time
-from celery import shared_task
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
+
+from catalog.classDB_meneger_ import DBManager
+from catalog.utils import my_scheduled_job
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -50,6 +53,10 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
         return context_data
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.db_manager = DBManager()
+
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
         self.object = form.save()
@@ -58,12 +65,24 @@ class ProductCreate(LoginRequiredMixin, CreateView):
             formset.save()
         new_user = form.save()
         new_user.save()
-        email_list = []
-        for form in formset:
-            if 'email' in form.cleaned_data:
-                email_list.append(form.cleaned_data['email'])
-        return super().form_valid(form)
-        form.instance.user = self.request.user
+
+        if not self.db_manager.is_mail_sent:
+            info = my_scheduled_job()
+
+            for info in info:
+                subject = info[0]
+                message = info[1]
+                recipient_list = [info[2]]
+
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=recipient_list,
+                    fail_silently=False
+                )
+            self.db_manager.is_mail_sent = True
+
         return super().form_valid(form)
 
 

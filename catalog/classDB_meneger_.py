@@ -4,6 +4,8 @@ import psycopg2
 class DBManager():
     def __init__(self):
 
+        self.is_mail_sent = False
+
         self.conn = psycopg2.connect(database="male",
                                      user="pavel",
                                      password="password",
@@ -29,3 +31,6 @@ class DBManager():
         self.cur.execute("SELECT id, topic, description, mailing_time, period FROM catalog_product")
         rows = self.cur.fetchall()
         return rows
+
+
+
