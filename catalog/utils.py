@@ -34,16 +34,3 @@ def my_scheduled_job():
         our_information.append([topic, desc, email_list[0]])
 
     return our_information
-# def send_email():
-#     info = my_scheduled_job()
-#
-#     send_mail(
-#         subject=info[0],
-#         message=info[1],
-#         from_email=settings.EMAIL_HOST_USER,
-#         recipient_list=info[2],
-#         fail_silently=False
-#     )
-
-
-print(my_scheduled_job())

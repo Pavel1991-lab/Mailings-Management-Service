@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 import psycopg2
 
 
@@ -31,6 +33,4 @@ class DBManager():
         self.cur.execute("SELECT id, topic, description, mailing_time, period FROM catalog_product")
         rows = self.cur.fetchall()
         return rows
-
-
 

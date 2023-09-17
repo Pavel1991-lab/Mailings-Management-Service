@@ -17,6 +17,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name='сообщение')  # описание
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name='пользователь')
     mailing_time = models.TimeField(blank=True, null=True, verbose_name='время рассылки')
+    mailing_date = models.DateField(blank=True, null=True, verbose_name='дата рассылки')
     period = models.CharField(max_length=10, choices=PERIOD_CHOICES, verbose_name='период')
 
 
