@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     'django_crontab',
-    'django_celery_beat',
+    # 'django_celery_beat',
     # 'django.contrib.sites',
     # 'account'
 ]

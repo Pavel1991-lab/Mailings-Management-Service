@@ -8,8 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
-from pytils.translit import slugify
-# from catalog.tasks import send_email_at_specific_time
+
 from catalog.forms import ProductForm, ClientForm
 
 from config import settings
