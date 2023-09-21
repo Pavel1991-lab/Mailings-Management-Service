@@ -6,24 +6,22 @@
 </head>
 <body>
     <h1>Список клиентов</h1>
-    <a class="p-2 btn btn-warning btn-lg" href="{% url 'catalog:product_list' %}">На главную</a>    <ul>
-        {% for client in client_list %}
-        <li>{{ client.email }}
-            <form method="post" action="{% url 'catalog:update_client' client.id %}">
-                {% csrf_token %}
-                <input type="submit" value="Обновить">
-            </form>
-            <form method="post" action="{% url 'catalog:cl_delete' client.id %}">
-                {% csrf_token %}
-                <input type="submit" value="Удалить">
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-    <form method="post" action="{% url 'catalog:add_client' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <a class="p-2 btn btn-warning btn-lg" href="{% url 'catalog:product_list' %}">На главную</a>
+       <div class="col-12">
+    <form method="post" enctype="multipart/form-data">
 
-    </form>
+         <div class="row text-center">
+             <div class="col-6">
+                <div class="card h-100">
+                     <div class="card-body">
+                             {% csrf_token %}
+                             {{ form.as_p }}
+                             <button type="submit" class="btn-success">Создать</button>
+                     </div>
+                 </div>
+             </div>
+          </div>
+      </form>
+        </div>
 </body>
 </html>

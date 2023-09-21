@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import psycopg2
 
@@ -25,7 +25,7 @@ class DBManager():
         return rows
 
     def for_email_prod_id(self):
-        self.cur.execute("SELECT email,  product_id FROM catalog_client")
+        self.cur.execute("SELECT email FROM catalog_client")
         rows = self.cur.fetchall()
         return rows
 
@@ -33,4 +33,13 @@ class DBManager():
         self.cur.execute("SELECT id, topic, description, mailing_time, period FROM catalog_product")
         rows = self.cur.fetchall()
         return rows
+
+
+
+    def increase_date(self):
+        if self.is_mail_sent:
+            self.cur.execute("SELECT mailing_date FROM catalog_product")
+            rows = self.cur.fetchall()
+
+
 

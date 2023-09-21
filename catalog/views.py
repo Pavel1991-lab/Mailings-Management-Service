@@ -43,47 +43,25 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=100)
-        if self.request.method == 'POST':
-            context_data['formset'] = ClientFormset(self.request.POST, instance=self.object)
-        else:
-            context_data['formset'] = ClientFormset(instance=self.object)
 
-        return context_data
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.db_manager = DBManager()
-
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data(**kwargs)
+    #     ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=100)
+    #     if self.request.method == 'POST':
+    #         context_data['formset'] = ClientFormset(self.request.POST, instance=self.object)
+    #     else:
+    #         context_data['formset'] = ClientFormset(instance=self.object)
+    #
+    #     return context_data
+    #
     def form_valid(self, form):
-        formset = self.get_context_data()['formset']
-        self.object = form.save()
-        if formset.is_valid():
-            formset.instance = self.object
-            formset.save()
-        new_user = form.save()
-        new_user.save()
-
-        if not self.db_manager.is_mail_sent:
-            info = my_scheduled_job()
-
-            for info in info:
-                subject = info[0]
-                message = info[1]
-                recipient_list = [info[2]]
-
-                send_mail(
-                    subject=subject,
-                    message=message,
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=recipient_list,
-                    fail_silently=False
-                )
-            self.db_manager.is_mail_sent = True
-
+        my_scheduled_job()
+        form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+
 
 
 

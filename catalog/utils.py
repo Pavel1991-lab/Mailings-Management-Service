@@ -4,33 +4,29 @@ from django.core.mail import send_mail
 from catalog.classDB_meneger_ import DBManager
 from django.core.mail import send_mail
 from datetime import datetime
+
+from catalog.models import Product
 from config import settings
 
 
 def my_scheduled_job():
     current_time = datetime.now().strftime('%H:%M')
-    db_manager = DBManager()
-    all_products = db_manager.product_all()
-    id_list = []
-    for product in all_products:
-        if product[3].strftime('%H:%M') <= current_time:
-            id_list.append(product[0])
+    all_product = Product.objects.all()
+    print(all_product)
+    for product in all_product:
+        send_mail(
+            subject=product.topic,
+            message='hi',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=["sotnikov.pavel.91@mail.ru"]
+        )
 
-    email_prod_id = db_manager.for_email_prod_id()
-    email_lists = []
-    for email_prod in email_prod_id:
-        if email_prod[1] in id_list:
-            email_lists.append(email_prod)
 
-    our_information = []
-    for email_list in email_lists:
-        topic = ''
-        desc = ''
-        for product in all_products:
-            if product[0] == email_list[1]:
-                topic += product[1]
-                desc += product[2]
 
-        our_information.append([topic, desc, email_list[0]])
 
-    return our_information
+#
+# all_product = Product.objects.all()
+# for product in all_product:
+#     print(product.topic)
+#
+

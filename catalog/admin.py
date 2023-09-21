@@ -1,20 +1,16 @@
-# from django.contrib import admin
-#
-# from catalog.models import Client
-#
+from django.contrib import admin
 
-# Register your models here.
+from catalog.models import Client, Product
 
 
-
-# @admin.register(Product)
-# class Categoryadmin(admin.ModelAdmin):
-#     list_display = ('pk')
-#     search_fields = ('description')
-#
+@admin.register(Product)
+class Categoryadmin(admin.ModelAdmin):
+    list_display = ('pk',)
+    search_fields = ('description',)
 
 
-# @admin.register(Client)
-# class ClientAdmin(admin.ModelAdmin):
-#     list_display = ('pk')
-#
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'email')
+
