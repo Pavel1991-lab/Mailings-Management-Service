@@ -13,13 +13,9 @@ def my_scheduled_job():
     current_time = datetime.now().time()
     current_date = datetime.now().date()
     all_product = Product.objects.all()
-    all_client = Client.objects.all()
     for product in all_product:
-        print(current_time)
-        print(current_date)
-        print(all_product)
-        print(all_client)
-        for client in all_client:
+        clients = product.clients.all()
+        for client in clients:
             if product.mailing_time <= current_time and product.mailing_date == current_date:
                 send_mail(
                     subject=product.topic,
@@ -28,10 +24,4 @@ def my_scheduled_job():
                     recipient_list=[client.email]
                 )
 
-
-#
-# all_product = Product.objects.all()
-# for product in all_product:
-#     print(product.topic)
-#
 

@@ -43,18 +43,6 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-
-
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     ClientFormset = inlineformset_factory(Product, Client, ClientForm, extra=100)
-    #     if self.request.method == 'POST':
-    #         context_data['formset'] = ClientFormset(self.request.POST, instance=self.object)
-    #     else:
-    #         context_data['formset'] = ClientFormset(instance=self.object)
-    #
-    #     return context_data
-    #
     def form_valid(self, form):
         my_scheduled_job()
         form.instance.user = self.request.user

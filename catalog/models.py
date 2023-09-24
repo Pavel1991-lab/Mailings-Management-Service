@@ -24,7 +24,7 @@ class Product(models.Model):
 
     topic = models.TextField(verbose_name='тема')  # тема
     description = models.TextField(verbose_name='сообщение')  # описание
-    clients = models.ManyToManyField(Client, verbose_name='клиенты')
+    clients = models.ManyToManyField(Client, verbose_name='клиенты', related_name='product')
     mailing_time = models.TimeField(blank=True, null=True, verbose_name='время рассылки')
     mailing_date = models.DateField(blank=True, null=True, verbose_name='дата рассылки')
     period = models.CharField(max_length=10, choices=PERIOD_CHOICES, verbose_name='период')
