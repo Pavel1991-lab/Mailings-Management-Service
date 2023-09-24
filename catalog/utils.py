@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 
 from catalog.classDB_meneger_ import DBManager
 from django.core.mail import send_mail
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from catalog.models import Product, Client
 from config import settings
@@ -23,5 +23,16 @@ def my_scheduled_job():
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[client.email]
                 )
+
+            if product.period == 'dayly':
+                product.mailing_date += timedelta(days=1)
+                product.save()
+            elif product.period == 'weekly':
+                product.mailing_date += timedelta(days=7)
+                product.save()
+            elif product.period == 'monthly':
+                product.mailing_date += timedelta(days=30)
+                product.save()
+
 
 
