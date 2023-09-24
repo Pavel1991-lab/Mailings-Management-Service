@@ -14,25 +14,22 @@ def my_scheduled_job():
     current_date = datetime.now().date()
     all_product = Product.objects.all()
     for product in all_product:
-        clients = product.clients.all()
-        for client in clients:
-            if product.mailing_time <= current_time and product.mailing_date == current_date:
-                send_mail(
-                    subject=product.topic,
-                    message=product.description,
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[client.email]
-                )
+        clients = product.clients.values_list('email', flat=True)  # получение списка email клиентов
+        print(clients)  # вывод списка email для отладки
+        if product.mailing_time <= current_time and product.mailing_date == current_date:
+            send_mail(
+                subject=product.topic,
+                message=product.description,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=clients  # передача списка email в качестве получателей
+            )
 
-            if product.period == 'dayly':
+
+            if product.period == 'daily':
                 product.mailing_date += timedelta(days=1)
-                product.save()
             elif product.period == 'weekly':
                 product.mailing_date += timedelta(days=7)
-                product.save()
             elif product.period == 'monthly':
                 product.mailing_date += timedelta(days=30)
-                product.save()
 
-
-
+            product.save()

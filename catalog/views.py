@@ -44,7 +44,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:product_list')
 
     def form_valid(self, form):
-        my_scheduled_job()
+
         form.instance.user = self.request.user
         return super().form_valid(form)
 

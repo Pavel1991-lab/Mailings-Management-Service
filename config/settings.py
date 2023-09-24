@@ -50,7 +50,9 @@ INSTALLED_APPS = [
     'django_crontab',
 ]
 
-
+CRONJOBS = [
+    ('*/1 * * * *', 'catalog.utils.my_scheduled_job')
+]
 
 
 MIDDLEWARE = [
@@ -61,8 +63,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'account.middleware.LocaleMiddleware',
-    # 'account.middleware.TimezoneMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
