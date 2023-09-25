@@ -2,6 +2,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
 
+from Blog.models import Blog
+
 
 class Blogcreateview(CreateView):
 
@@ -17,16 +19,28 @@ class Blogcreateview(CreateView):
         return super().form_valid(form)
 
 
-
+# class Clientlistview(LoginRequiredMixin, ListView):
+#     model = Client
+#     template_name = 'catalog/client_form.html'
+#
+#     def get_queryset(self):
+#         return super().get_queryset().filter(user=self.request.user)
 
 class BloglistView(ListView):
+     model = Blog
+     template_name = 'Blog/blog_form.html'
 
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(is_published=True)
-        return queryset
+     def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
+
+# class Productlistview(LoginRequiredMixin, ListView):
+#     model = Product
+#     template_name = 'catalog/home.html'
+#
+#     def get_queryset(self):
+#         return super().get_queryset().filter(user=self.request.user)
 
 class Blogdetaileview(DetailView):
 

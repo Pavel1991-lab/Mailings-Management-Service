@@ -14,7 +14,7 @@ app_name = FidbeckConfig.name
 
 urlpatterns = [
     path('create/', Blogcreateview.as_view(), name='create'),
-    path('', BloglistView.as_view(), name='list'),
+    path('blog/', BloglistView.as_view(), name='blog_list'),
     path('view/<int:pk>/<slug:slug>', Blogdetaileview.as_view(), name='view'),
     path('edit/<int:pk>/<slug:slug>', Blogupdateview.as_view(), name='edit'),
     path('delete/<int:pk>/<slug:slug>', BlogdeleteView.as_view(), name='delete'),
