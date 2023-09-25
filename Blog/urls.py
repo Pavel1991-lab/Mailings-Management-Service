@@ -4,7 +4,7 @@ from django.urls import path
 
 from Blog.apps import FidbeckConfig
 
-from Blog.views import Fidbeckcreateview, FidbecklistView, Fidbecdetaileview, Fidbecupdateview, FidbecdeleteView
+from Blog.views import Blogcreateview, BloglistView, Blogdetaileview, Blogupdateview, BlogdeleteView
 
 
 
@@ -13,11 +13,11 @@ app_name = FidbeckConfig.name
 
 
 urlpatterns = [
-    path('create/', Fidbeckcreateview.as_view(), name='create'),
-    path('', FidbecklistView.as_view(), name='list'),
-    path('view/<int:pk>/<slug:slug>', Fidbecdetaileview.as_view(), name='view'),
-    path('edit/<int:pk>/<slug:slug>', Fidbecupdateview.as_view(), name='edit'),
-    path('delete/<int:pk>/<slug:slug>', FidbecdeleteView.as_view(), name='delete'),
+    path('create/', Blogcreateview.as_view(), name='create'),
+    path('', BloglistView.as_view(), name='list'),
+    path('view/<int:pk>/<slug:slug>', Blogdetaileview.as_view(), name='view'),
+    path('edit/<int:pk>/<slug:slug>', Blogupdateview.as_view(), name='edit'),
+    path('delete/<int:pk>/<slug:slug>', BlogdeleteView.as_view(), name='delete'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

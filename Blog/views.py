@@ -1,11 +1,10 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
-from Blog.models import Fidbeck
 
 
-class Fidbeckcreateview(CreateView):
-    model = Fidbeck
+class Blogcreateview(CreateView):
+
     fields = ['title', 'content', 'preview']
     success_url = reverse_lazy('Blog:list')
 
@@ -20,8 +19,8 @@ class Fidbeckcreateview(CreateView):
 
 
 
-class FidbecklistView(ListView):
-    model = Fidbeck
+class BloglistView(ListView):
+
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -29,8 +28,8 @@ class FidbecklistView(ListView):
         return queryset
 
 
-class Fidbecdetaileview(DetailView):
-    model = Fidbeck
+class Blogdetaileview(DetailView):
+
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -40,16 +39,16 @@ class Fidbecdetaileview(DetailView):
 
 
 
-class Fidbecupdateview(UpdateView):
-        model = Fidbeck
+class Blogupdateview(UpdateView):
+
         fields = ['title', 'content', 'preview']
 
         def get_success_url(self):
             return reverse('Blog:view', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
 
 
-class FidbecdeleteView(DeleteView):
-    model = Fidbeck
+class BlogdeleteView(DeleteView):
+
     success_url = reverse_lazy('Blog:list')
 
 
