@@ -7,6 +7,6 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('catalog.urls', namespace='catalog')),
     path('admin/', admin.site.urls),
-    path('fidbeck/', include('fidbeck.urls', namespace='fidbeck')),
+    path('Blog/', include('Blog.urls', namespace='Blog')),
     path('users/', include('users.urls', namespace='users')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

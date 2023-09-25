@@ -1,11 +1,7 @@
-import psycopg2
-from django.core.mail import send_mail
 
-from catalog.classDB_meneger_ import DBManager
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
-
-from catalog.models import Product, Client
+from catalog.models import Product
 from config import settings
 
 

@@ -2,9 +2,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from fidbeck.apps import FidbeckConfig
+from Blog.apps import FidbeckConfig
 
-from fidbeck.views import Fidbeckcreateview, FidbecklistView, Fidbecdetaileview, Fidbecupdateview, FidbecdeleteView
+from Blog.views import Fidbeckcreateview, FidbecklistView, Fidbecdetaileview, Fidbecupdateview, FidbecdeleteView
 
 
 

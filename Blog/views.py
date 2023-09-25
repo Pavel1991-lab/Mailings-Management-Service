@@ -1,13 +1,13 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
-from fidbeck.models import Fidbeck
+from Blog.models import Fidbeck
 
 
 class Fidbeckcreateview(CreateView):
     model = Fidbeck
     fields = ['title', 'content', 'preview']
-    success_url = reverse_lazy('fidbeck:list')
+    success_url = reverse_lazy('Blog:list')
 
 
     def form_valid(self, form):
@@ -45,11 +45,11 @@ class Fidbecupdateview(UpdateView):
         fields = ['title', 'content', 'preview']
 
         def get_success_url(self):
-            return reverse('fidbeck:view', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
+            return reverse('Blog:view', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
 
 
 class FidbecdeleteView(DeleteView):
     model = Fidbeck
-    success_url = reverse_lazy('fidbeck:list')
+    success_url = reverse_lazy('Blog:list')
 
 
