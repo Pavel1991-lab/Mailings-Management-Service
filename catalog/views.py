@@ -100,5 +100,14 @@ class ClientdeleteView(DeleteView):
     success_url = reverse_lazy('catalog:client_list')
 
 def our_clients(request):
-    client_count = Client.objects.count()
+    client_count = Client.objects.all().count()
     return render(request, 'catalog/home.html', {'client_count': client_count})
+
+
+
+def active(request):
+    active_products = Product.objects.filter(active='yes')
+    context = {
+        'active_products_count': active_products.count()
+    }
+    return render(request, 'catalog/home.html', context)
