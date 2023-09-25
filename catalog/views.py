@@ -1,5 +1,6 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
@@ -97,3 +98,7 @@ class ClientUpdateview(LoginRequiredMixin, UpdateView):
 class ClientdeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('catalog:client_list')
+
+def our_clients(request):
+    client_count = Client.objects.count()
+    return render(request, 'catalog/home.html', {'client_count': client_count})

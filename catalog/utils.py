@@ -32,7 +32,3 @@ def my_scheduled_job():
 
 
 
-# def our_product():
-#     all_product = Product.objects.all()
-#     for i in all_product:
-#         return len(i)
