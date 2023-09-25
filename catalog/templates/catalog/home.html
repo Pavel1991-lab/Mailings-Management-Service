@@ -4,7 +4,9 @@
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Ваша рассылка</h1>
-    <p class="lead">Здесь можете зделать рассылку на нужную почту</p>
+    <p class="lead">Здесь можете сделать рассылку</p>
+    <p>Количество рассылок: {{ object_list|length }}</p>
+    <p>Количество активных рассылок: {{ count_active }}</p>
 </div>
 
 <div class="container">

@@ -12,7 +12,7 @@ def my_scheduled_job():
     for product in all_product:
         clients = product.clients.values_list('email', flat=True)  # получение списка email клиентов
         print(clients)  # вывод списка email для отладки
-        if product.mailing_time <= current_time and product.mailing_date == current_date:
+        if product.mailing_time <= current_time and product.mailing_date == current_date and product.active == 'yes':
             send_mail(
                 subject=product.topic,
                 message=product.description,
@@ -29,3 +29,10 @@ def my_scheduled_job():
                 product.mailing_date += timedelta(days=30)
 
             product.save()
+
+
+
+# def our_product():
+#     all_product = Product.objects.all()
+#     for i in all_product:
+#         return len(i)

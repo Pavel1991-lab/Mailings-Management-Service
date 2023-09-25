@@ -21,6 +21,10 @@ class Product(models.Model):
         ('weekly', 'Еженедельно'),
         ('monthly', 'Ежемесячно'),
     )
+    ACTIVE_CHOICES = (
+        ('yes', 'Активна'),
+        ('no', 'Не активна'),
+    )
 
     topic = models.TextField(verbose_name='тема')  # тема
     description = models.TextField(verbose_name='сообщение')  # описание
@@ -29,6 +33,8 @@ class Product(models.Model):
     mailing_date = models.DateField(blank=True, null=True, verbose_name='дата рассылки')
     period = models.CharField(max_length=10, choices=PERIOD_CHOICES, verbose_name='период')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='пользователь')
+    active = models.CharField(max_length=10, choices=ACTIVE_CHOICES, verbose_name='статус')
+
 
     def __str__(self):
         return self.topic

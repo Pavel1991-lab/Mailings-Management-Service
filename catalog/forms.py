@@ -15,7 +15,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = [field.name for field in Product._meta.fields if field.name != 'user']
+        fields = ('topic', 'description', 'mailing_time', 'mailing_date', 'clients', 'period', 'active' )
 
 
 
