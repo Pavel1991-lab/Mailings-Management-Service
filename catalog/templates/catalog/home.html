@@ -6,8 +6,8 @@
     <h1 class="display-4">Ваша рассылка</h1>
     <p class="lead">Здесь можете сделать рассылку</p>
     <p>Количество рассылок: {{ object_list|length }}</p>
-    <p>Количество активных рассылок: {{ active_products_count }}</p>
-    <p>Количество клиентов: {{ client_count }}</p>
+    <p>Количество активных рассылок: {{ active_clients_count }}</p>
+    <p>Количество клиентов: {{ count_active }}</p>
 </div>
 
 <div class="container">
@@ -15,7 +15,7 @@
         <div class="col-12 mb-5">
             <a class="btn btn-primary" href="{% url 'catalog:create_product' %}">Добавить рассылку</a>
         </div>
-        {%for object in object_list%}
+        {% for object in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -38,13 +38,4 @@
     </div>
 </div>
 
-
-            </div>
-        </div>
-    </footer>
-</div>
-
-<script src="/static/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 {% endblock %}

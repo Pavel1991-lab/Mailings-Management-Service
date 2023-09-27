@@ -11,11 +11,23 @@ from catalog.forms import ProductForm, ClientForm
 
 class Productlistview(LoginRequiredMixin, ListView):
     model = Product
+
     template_name = 'catalog/home.html'
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+
+        # Подсчет количества активных клиентов
+        active_clients_count = Product.objects.filter(active='yes').count()
+        clients_count = Client.objects.all().count()
+
+        # Сохранение результата в контексте
+        context['active_clients_count'] = active_clients_count
+        context['clients_count'] = clients_count
+        return context
 
 
 
@@ -68,7 +80,16 @@ class Clientlistview(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
 
+        # Подсчет количества активных клиентов
+
+        clients_count = Client.objects.all().count()
+
+        # Сохранение результата в контексте
+        context['clients_count'] = clients_count
+        return context
 
 class ClientCreate(LoginRequiredMixin, CreateView):
     model = Client
