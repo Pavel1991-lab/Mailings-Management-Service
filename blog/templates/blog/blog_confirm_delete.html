@@ -6,10 +6,10 @@
          <div class = 'col-18'>
              <div class = 'card'>
                  <div class = 'card-body'>
-                     <form method="post" enctype="multipart/form-data">
+                     <form method="post">
                          {% csrf_token %}
-                         {{ form.as_p}}
-                         <button type="submit" class="btn-success">Создать</button>
+                         <p>Хотите удалить блог "{{object.title}}"?</p>
+                         <button type="submit" class="btn-success">Подтвердить</button>
                      </form>
                  </div>
              </div>

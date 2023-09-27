@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'catalog',
-    'Blog',
+    'blog',
     'users',
     'crispy_forms',
     'django_crontab',

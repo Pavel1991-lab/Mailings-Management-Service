@@ -1,4 +1,4 @@
-from Blog.models import Blog
+from blog.models import Blog
 from django import forms
 
 
