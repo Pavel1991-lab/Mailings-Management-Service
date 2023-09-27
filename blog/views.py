@@ -1,7 +1,6 @@
 
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-
 from blog.forms import BlogForm
 from blog.models import Blog
 
