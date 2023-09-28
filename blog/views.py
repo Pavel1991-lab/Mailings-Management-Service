@@ -14,21 +14,18 @@ class Blogcreateview(CreateView):
         return super().form_valid(form)
 
 
+
 class BlogListView(ListView):
     model = Blog
     template_name = 'blog/blog_list.html'
 
+    context_object_name = 'objects'
 
-
-# class Blogdetaileview(DetailView):
-#
-#
-#     def get_object(self, queryset=None):
-#         self.object = super().get_object(queryset)
-#         self.object.views_count += 1
-#         self.object.save()
-#         return self.object
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Титульная страница блога'
+        context['blogs'] = Blog.objects.all()  # Получение всех объектов блога из базы данных
+        return context
 
 class Blogupdateview(UpdateView):
     model = Blog
