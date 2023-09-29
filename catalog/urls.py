@@ -6,11 +6,12 @@ from catalog.views import (Contactlistview, ProductByCategoryListView,
                            Productlistview, ProductCreate, ProductUpdateview, ProductdeleteView, Clientlistview, ClientCreate, ClientUpdateview, ClientdeleteView)
 from django.contrib.auth.views import LoginView
 from catalog.apps import CatalogConfig
+from django.views.decorators.cache import cache_page
 
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path('', Productlistview.as_view(), name='product_list'),
+    path('', cache_page(60) (Productlistview.as_view()), name='product_list'),
     path('contacts/', Contactlistview.as_view(), name = 'contact_list'),
     path('good/<int:pk>', ProductByCategoryListView.as_view(), name='product_detail'),
     path('create/', ProductCreate.as_view(), name = 'create_product'),

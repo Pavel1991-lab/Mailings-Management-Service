@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
 from catalog.forms import ProductForm, ClientForm
+from django.views.decorators.cache import cache_page
+from django_redis.cache import RedisCache
 
 
 
@@ -12,6 +14,8 @@ from catalog.forms import ProductForm, ClientForm
 class Productlistview(LoginRequiredMixin,  ListView):
     model = Product
     template_name = 'catalog/home.html'
+
+
 
     def form_valid(self, form):
         form.instance.user = self.request.user
