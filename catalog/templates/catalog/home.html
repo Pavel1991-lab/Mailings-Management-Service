@@ -18,6 +18,7 @@
             <a class="btn btn-primary" href="{% url 'catalog:create_product' %}">Добавить рассылку</a>
         </div>
         {% for object in object_list %}
+          {% if user.is_staff or self.User == client_object.user %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -36,6 +37,7 @@
                 </div>
             </div>
         </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

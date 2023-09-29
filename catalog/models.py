@@ -42,6 +42,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Расслыка'
 
+        permissions = [
+            ('can_change_product_active', 'Can_change_product_active'),
+        ]
+
 
 
 

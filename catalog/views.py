@@ -1,5 +1,5 @@
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -9,10 +9,13 @@ from catalog.forms import ProductForm, ClientForm
 
 
 
-class Productlistview(LoginRequiredMixin, ListView):
+class Productlistview(LoginRequiredMixin,  ListView):
     model = Product
-
     template_name = 'catalog/home.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
@@ -55,10 +58,11 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
 
 
-class ProductUpdateview(LoginRequiredMixin, UpdateView):
+class ProductUpdateview(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+    permission_required = 'catalog.can_change_product_active'
 
 
     def form_valid(self, form):
