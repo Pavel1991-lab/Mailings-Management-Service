@@ -8,6 +8,8 @@ from catalog.forms import ProductForm, ClientForm
 
 from catalog import forms
 
+from blog.models import Blog
+
 
 class Productlistview(LoginRequiredMixin,  ListView):
     model = Product
@@ -21,13 +23,15 @@ class Productlistview(LoginRequiredMixin,  ListView):
         if self.request.user.is_staff or self.request.user.has_perm('catalog.view_product'):
             return Product.objects.all()
         return super().get_queryset().filter(user=self.request.user)
+
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         user = self.request.user
-        # Подсчет количества активных клиентов
+        blog = Blog.objects.all()
         active_clients_count = Product.objects.filter(user=user, active='yes').count()
         clients_count = Client.objects.filter(user=user).count()
-        # Сохранение результата в контексте
+        context['blog'] = blog
         context['active_clients_count'] = active_clients_count
         context['clients_count'] = clients_count
         return context
@@ -69,6 +73,7 @@ class ProductUpdateview(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     def get_queryset(self):
         if self.request.user.is_staff or self.request.user.has_perm('catalog.update_product'):
             return Product.objects.all()
+
         return super().get_queryset().filter(user=self.request.user)
 
     def form_valid(self, form):

@@ -2,16 +2,31 @@
 {% load my_tags %}
 
 {% block content %}
+ <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6" style="display: inline-block;">
+            {% for object in blog|slice:":3" %}
+                <img src='{{ object.image|mymedia }}' alt="продукты" class="img-fluid" style="width: 225px; height: 100px;">
+                <li>- {{ object.content }}</li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
+
             <h1 class="display-4">Ваша рассылка</h1>
+
     <p class="lead">Здесь можете сделать рассылку</p>
     <p>Количество рассылок: {{ object_list|length }}</p>
     <p>Количество активных рассылок: {{ active_clients_count }}</p>
     <p>Количество клиентов: {{ clients_count }}</p>
+
+
      </div>
         </div>
+
     <div class="container">
     <div class="row text-left">
         <div class="col-12 mb-5">
@@ -24,6 +39,7 @@
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
                 </div>
+
                 <div class="card-body">
                   <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- {{ object.topic|slice:":30" }}</li>
@@ -36,15 +52,15 @@
                      <a href="{% url 'catalog:update_product' object.pk %}" type="button" class="btn btn-primary">Обновить</a>
                     <a href="{% url 'catalog:delete' object.pk %}" type="button" class="btn btn-primary">Удалить</a>
                 </div>
+                                                                                          <div class="container">
+
+                    </div>
             </div>
         </div>
+
             {% endif %}
         {% endfor %}
-    </div>
-</div>
 
-</div>
 
-    </div>
-</div>
-{% endblock %}
+
+        {% endblock %}
