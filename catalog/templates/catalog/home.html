@@ -28,6 +28,7 @@
                   <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- {{ object.topic|slice:":30" }}</li>
                         <li>- {{ object.description|slice:":30" }}</li>
+                        <li>- {{ object.active }}</li>
                          {% if request.user.is_authenticated %}
                          <span class="text-muted">Зарегистрировал: {{ object.user.email }}</span>
                          {% endif %}
