@@ -5,10 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product, Client
 from catalog.forms import ProductForm, ClientForm
-from django.views.decorators.cache import cache_page
-from django_redis.cache import RedisCache
 
-
+from catalog import forms
 
 
 class Productlistview(LoginRequiredMixin,  ListView):
@@ -16,21 +14,19 @@ class Productlistview(LoginRequiredMixin,  ListView):
     template_name = 'catalog/home.html'
 
 
-
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
     def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.has_perm('catalog.view_product'):
+            return Product.objects.all()
         return super().get_queryset().filter(user=self.request.user)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
-
+        user = self.request.user
         # Подсчет количества активных клиентов
-        active_clients_count = Product.objects.filter(active='yes').count()
-        clients_count = Client.objects.all().count()
-
+        active_clients_count = Product.objects.filter(user=user, active='yes').count()
+        clients_count = Client.objects.filter(user=user).count()
         # Сохранение результата в контексте
         context['active_clients_count'] = active_clients_count
         context['clients_count'] = clients_count
@@ -56,6 +52,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        user = self.request.user
         return super().form_valid(form)
 
 
@@ -63,15 +60,27 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
 
 class ProductUpdateview(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
     permission_required = 'catalog.can_change_product_active'
 
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.has_perm('catalog.update_product'):
+            return Product.objects.all()
+        return super().get_queryset().filter(user=self.request.user)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        for field_name in form.fields:
+            if field_name != 'active':
+                form.fields[field_name].widget = forms.HiddenInput()
+        return form
 
 
 
@@ -81,28 +90,21 @@ class ProductdeleteView(DeleteView):
 
 
 
+
+
 class Clientlistview(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'catalog/client_form.html'
-
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-
-        # Подсчет количества активных клиентов
-
-        clients_count = Client.objects.all().count()
-
-        # Сохранение результата в контексте
-        context['clients_count'] = clients_count
-        return context
 
 class ClientCreate(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('catalog:client_list')
+
+
 
     def form_valid(self, form):
         new_user = form.save()
@@ -128,15 +130,3 @@ class ClientdeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('catalog:client_list')
 
-def our_clients(request):
-    client_count = Client.objects.all().count()
-    return render(request, 'catalog/home.html', {'client_count': client_count})
-
-
-
-def active(request):
-    active_products = Product.objects.filter(active='yes')
-    context = {
-        'active_products_count': active_products.count()
-    }
-    return render(request, 'catalog/home.html', context)

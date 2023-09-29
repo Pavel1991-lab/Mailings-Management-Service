@@ -11,7 +11,7 @@ from django.views.decorators.cache import cache_page
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path('', cache_page(60) (Productlistview.as_view()), name='product_list'),
+    path('', (Productlistview.as_view()), name='product_list'),
     path('contacts/', Contactlistview.as_view(), name = 'contact_list'),
     path('good/<int:pk>', ProductByCategoryListView.as_view(), name='product_detail'),
     path('create/', ProductCreate.as_view(), name = 'create_product'),

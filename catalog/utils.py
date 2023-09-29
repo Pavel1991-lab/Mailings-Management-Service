@@ -11,14 +11,17 @@ def my_scheduled_job():
     all_product = Product.objects.all()
     for product in all_product:
         clients = product.clients.values_list('email', flat=True)  # получение списка email клиентов
-        print(clients)  # вывод списка email для отладки
         if product.mailing_time <= current_time and product.mailing_date == current_date and product.active == 'yes':
+            # try:
             send_mail(
                 subject=product.topic,
                 message=product.description,
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=clients  # передача списка email в качестве получателей
             )
+            #     Log(message = 'ok')
+            # except Exception as e:
+            #     log(message = str(e))
 
 
             if product.period == 'daily':
