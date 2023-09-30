@@ -56,36 +56,35 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        user = self.request.user
         return super().form_valid(form)
 
 
 
 
 
-class ProductUpdateview(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateview(LoginRequiredMixin, UpdateView):
 
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
-    permission_required = 'catalog.can_change_product_active'
+    # permission_required = 'catalog.can_change_product_active'
 
-    def get_queryset(self):
-        if self.request.user.is_staff or self.request.user.has_perm('catalog.update_product'):
-            return Product.objects.all()
-
-        return super().get_queryset().filter(user=self.request.user)
+    # def get_queryset(self):
+    #     if self.request.user.is_staff or self.request.user.has_perm('catalog.update_product'):
+    #         return Product.objects.all()
+    #
+    #     return super().get_queryset().filter(user=self.request.user)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        for field_name in form.fields:
-            if field_name != 'active':
-                form.fields[field_name].widget = forms.HiddenInput()
-        return form
+    # def get_form(self, form_class=None):
+    #     form = super().get_form(form_class)
+    #     for field_name in form.fields:
+    #         if field_name != 'active':
+    #             form.fields[field_name].widget = forms.HiddenInput()
+    #     return form
 
 
 

@@ -46,7 +46,10 @@ class Product(models.Model):
             ('can_change_product_active', 'Can_change_product_active'),
         ]
 
-
+class MailingLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100)
+    response = models.TextField(blank=True, null=True)
 
 
 

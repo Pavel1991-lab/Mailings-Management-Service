@@ -5,7 +5,7 @@ from django.forms import HiddenInput
 
 
 class ProductForm(forms.ModelForm):
-    user = forms.CharField(widget=HiddenInput)
+
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -13,7 +13,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('topic', 'description', 'mailing_time', 'mailing_date', 'clients', 'period', 'active' )
+        fields = ('topic', 'description', 'mailing_time', 'mailing_date', 'clients', 'period', 'active')
 
 
 
