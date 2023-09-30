@@ -60,8 +60,6 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
 
 
-
-
 class ProductUpdateview(LoginRequiredMixin, UpdateView):
 
     model = Product
@@ -82,7 +80,7 @@ class ProductUpdateview(LoginRequiredMixin, UpdateView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         for field_name in form.fields:
-            if field_name != 'active':
+            if field_name != 'active' and self.request.user.is_staff and not self.request.user.is_superuser:
                 form.fields[field_name].widget = forms.HiddenInput()
         return form
 
