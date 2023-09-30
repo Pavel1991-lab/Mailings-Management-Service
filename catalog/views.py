@@ -139,7 +139,4 @@ class LogListView(LoginRequiredMixin, ListView):
     model = MailingLog
     template_name = 'catalog/log_list.html'
 
-    def get_queryset(self):
-        return super().get_queryset().filter(user=self.request.user)
-
 
