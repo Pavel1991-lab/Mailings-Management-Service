@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Client
+from catalog.models import Product, Client, MailingLog
 from django.forms import HiddenInput
 
 
@@ -25,6 +25,9 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = ('email', 'full_name', 'comment')
+
+
+
 
 
 

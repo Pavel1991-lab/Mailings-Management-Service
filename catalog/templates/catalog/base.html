@@ -11,6 +11,8 @@
                 <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выход</a>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:add_client' %}">Создать клиента</a>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'blog:blog_list' %}">Блог</a>
+                <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:log_list' %}">Логи</a>
+
 
             {% else %}
                  <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Вход</a>

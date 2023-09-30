@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.models import Product, Client
+from catalog.models import Product, Client, MailingLog
 from catalog.forms import ProductForm, ClientForm
 
 from catalog import forms
@@ -133,4 +133,13 @@ class ClientUpdateview(LoginRequiredMixin, UpdateView):
 class ClientdeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('catalog:client_list')
+
+
+class LogListView(LoginRequiredMixin, ListView):
+    model = MailingLog
+    template_name = 'catalog/log_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
 
