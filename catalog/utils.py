@@ -9,6 +9,7 @@ def my_scheduled_job():
     current_time = datetime.now().time()
     current_date = datetime.now().date()
     all_product = Product.objects.all()
+
     for product in all_product:
         clients = product.clients.values_list('email', flat=True)  # получение списка email клиентов
         if product.mailing_time <= current_time and product.mailing_date == current_date and product.active == 'yes':

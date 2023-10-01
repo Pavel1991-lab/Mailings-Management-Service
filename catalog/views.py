@@ -54,6 +54,11 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def get_form_kwargs(self):
+        kwargs = super(ProductCreate, self).get_form_kwargs()
+        kwargs['user'] = self.request.user  # Передаем текущего пользователя в форму
+        return kwargs
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -137,4 +142,8 @@ class LogListView(LoginRequiredMixin, ListView):
     model = MailingLog
     template_name = 'catalog/log_list.html'
 
-
+    def get_queryset(self):
+       if self.request.user.is_staff:
+           return MailingLog.objects.all()
+       queryset = MailingLog.objects.filter(mailing__user = self.request.user)
+       return queryset

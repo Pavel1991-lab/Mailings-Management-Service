@@ -50,9 +50,7 @@ class MailingLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=100)
     response = models.TextField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,  verbose_name='пользователь')
-
-
+    mailing = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='mailing')
 
 
 
