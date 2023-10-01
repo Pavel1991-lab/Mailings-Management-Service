@@ -28,7 +28,7 @@ def my_scheduled_job():
                     elif product.period == 'monthly':
                         product.mailing_date += timedelta(days=30)
                     product.save()
-                    MailingLog.objects.create(response='ok')
+                    MailingLog.objects.create(response='ok', mailing = product)
 
 
 
