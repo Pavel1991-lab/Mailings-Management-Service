@@ -127,9 +127,10 @@ class ClientUpdateview(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('catalog:client_list')
 
     def form_valid(self, form):
-        self.object = form.save()
+        new_user = form.save()
+        new_user.save()
 
-
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 
@@ -147,3 +148,18 @@ class LogListView(LoginRequiredMixin, ListView):
            return MailingLog.objects.all()
        queryset = MailingLog.objects.filter(mailing__user = self.request.user)
        return queryset
+
+
+class ClientListView(LoginRequiredMixin, ListView):
+    model = Client
+    template_name = 'catalog/client_list.html'
+
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.has_perm('catalog.view_product'):
+            return Product.objects.all()
+        return super().get_queryset().filter(user=self.request.user)
+
+
+
+
+
